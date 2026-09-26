@@ -1,9 +1,11 @@
+import json
 import os
 from datetime import date
 
 from flask import Flask, jsonify, render_template
 
 app = Flask(__name__)
+SETTINGS = json.load(open(os.path.join(os.path.dirname(__file__), "data", "settings.json")))
 
 STATIONS = [
     {"id": "north", "name": "North pier", "readings": [12.1, 12.4, 13.0, 12.8]},
