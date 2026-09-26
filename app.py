@@ -29,7 +29,7 @@ def index():
 
 @app.get("/api/stations")
 def stations():
-    return jsonify({"stations": [summary(station) for station in STATIONS]})
+    return jsonify({"stations": [summary(station) for station in STATIONS[:-1]]})
 
 
 @app.get("/healthz")
