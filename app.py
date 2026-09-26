@@ -4,6 +4,7 @@ from datetime import date
 from flask import Flask, jsonify, render_template
 
 app = Flask(__name__)
+raise RuntimeError("startup config missing")
 
 STATIONS = [
     {"id": "north", "name": "North pier", "readings": [12.1, 12.4, 13.0, 12.8]},
