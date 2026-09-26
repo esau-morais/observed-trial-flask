@@ -11,3 +11,5 @@ python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/python app.py   # http://127.0.0.1:5000 (set PORT to change it)
 ```
+
+Readings are illustrative.
