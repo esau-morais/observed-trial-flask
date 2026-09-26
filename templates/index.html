@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Water temperature</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <main>
+      <h1>Water temperature</h1>
+      <p>Readings as of {{ today }}</p>
+      <button type="button" id="refresh">Show stations</button>
+      <p id="status" role="status">Not loaded</p>
+      <table hidden>
+        <thead>
+          <tr><th>Station</th><th>Latest °C</th><th>Average °C</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </main>
+    <script src="{{ url_for('static', filename='stations.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  background: #eef4f7;
+  color: #10242e;
+}
+
+main {
+  max-width: 36rem;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+button {
+  font: inherit;
+  padding: 0.4rem 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th,
+td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #cfdde4;
+  text-align: left;
+}
