@@ -8,26 +8,57 @@
       "requirements.txt",
       "templates/index.html",
       "static/stations.js",
-      "static/style.css"
+      "static/style.css",
+      "serve.py"
     ]
   },
   "setup": [
-    ["python3", "-m", "venv", ".venv"],
-    [".venv/bin/pip", "install", "-r", "requirements.txt"]
+    [
+      "python3",
+      "-m",
+      "venv",
+      ".venv"
+    ],
+    [
+      ".venv/bin/pip",
+      "install",
+      "-r",
+      "requirements.txt"
+    ]
   ],
-  "start": [".venv/bin/python", "app.py"],
-  "ready": { "path": "/", "status": 200 },
+  "start": [
+    ".venv/bin/python",
+    "serve.py"
+  ],
+  "ready": {
+    "path": "/",
+    "status": 200
+  },
   "capture": {
     "name": "Show stations",
     "path": "/",
     "ready": [
-      { "kind": "wait-text", "text": "Show stations" },
-      { "kind": "network-idle" }
+      {
+        "kind": "wait-text",
+        "text": "Show stations"
+      },
+      {
+        "kind": "network-idle"
+      }
     ],
     "steps": [
-      { "kind": "click-role", "role": "button", "name": "Show stations" },
-      { "kind": "wait-selector", "selector": "tbody tr" },
-      { "kind": "network-idle" }
+      {
+        "kind": "click-role",
+        "role": "button",
+        "name": "Show stations"
+      },
+      {
+        "kind": "wait-selector",
+        "selector": "tbody tr"
+      },
+      {
+        "kind": "network-idle"
+      }
     ],
     "check": {
       "kind": "text",
@@ -37,6 +68,8 @@
       "selector": "#status",
       "expectedText": "3 stations"
     },
-    "browserArguments": ["--no-sandbox"]
+    "browserArguments": [
+      "--no-sandbox"
+    ]
   }
 }
