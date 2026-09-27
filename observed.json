@@ -17,26 +17,107 @@
   ],
   "start": [".venv/bin/python", "app.py"],
   "ready": { "path": "/", "status": 200 },
-  "capture": {
-    "name": "Show stations",
-    "path": "/",
-    "ready": [
-      { "kind": "wait-text", "text": "Show stations" },
-      { "kind": "network-idle" }
-    ],
-    "steps": [
-      { "kind": "click-role", "role": "button", "name": "Show stations" },
-      { "kind": "wait-selector", "selector": "tbody tr" },
-      { "kind": "network-idle" }
-    ],
-    "check": {
-      "kind": "text",
-      "id": "three-stations",
-      "name": "Three stations loaded",
-      "scope": "Click Show stations through completion and network idle.",
-      "selector": "#status",
-      "expectedText": "3 stations"
+  "journeys": [
+    {
+      "name": "Show stations",
+      "path": "/",
+      "ready": [
+        { "kind": "wait-text", "text": "Show stations" },
+        { "kind": "network-idle" }
+      ],
+      "steps": [
+        { "kind": "click-role", "role": "button", "name": "Show stations" },
+        { "kind": "wait-selector", "selector": "tbody tr" },
+        { "kind": "network-idle" }
+      ],
+      "check": {
+        "kind": "text",
+        "id": "three-stations",
+        "name": "Three stations loaded",
+        "scope": "Click Show stations through completion and network idle.",
+        "selector": "#status",
+        "expectedText": "3 stations"
+      },
+      "browserArguments": ["--no-sandbox"]
     },
-    "browserArguments": ["--no-sandbox"]
-  }
+    {
+      "name": "Record a reading over the API",
+      "path": "/healthz",
+      "ready": [],
+      "steps": [],
+      "collectors": [
+        {
+          "kind": "api",
+          "operations": [
+            { "id": "list-stations", "method": "GET", "path": "/api/stations" },
+            {
+              "id": "add-reading",
+              "method": "POST",
+              "path": "/api/stations/north/readings",
+              "headers": [
+                {
+                  "name": "Authorization",
+                  "env": "STATIONS_TOKEN",
+                  "prefix": "Bearer "
+                }
+              ],
+              "body": { "json": { "value": 13.4 } }
+            },
+            {
+              "id": "read-station",
+              "method": "GET",
+              "path": "/api/stations/north"
+            }
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "kind": "api-status",
+          "id": "reading-created",
+          "name": "Adding a reading answers 201",
+          "scope": "One authorized POST of 13.4 to the North pier station.",
+          "operation": "add-reading",
+          "status": 201
+        },
+        {
+          "kind": "api-schema",
+          "id": "stations-contract",
+          "name": "Station list matches its contract",
+          "scope": "GET /api/stations on the seeded stations.",
+          "operation": "list-stations",
+          "schema": {
+            "type": "object",
+            "required": ["stations"],
+            "properties": {
+              "stations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "name", "latest", "average"],
+                  "properties": {
+                    "id": { "type": "string" },
+                    "name": { "type": "string" },
+                    "latest": { "type": "number" },
+                    "average": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "api-readback",
+          "id": "reading-stored",
+          "name": "The new reading is stored",
+          "scope": "GET /api/stations/north after the POST.",
+          "operation": "add-reading",
+          "readback": "read-station",
+          "pointer": "/readings/4",
+          "expected": 13.4
+        }
+      ],
+      "browserArguments": ["--no-sandbox"]
+    }
+  ]
 }
