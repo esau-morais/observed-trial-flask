@@ -67,8 +67,8 @@ def add_reading(station_id):
     value = (request.get_json(silent=True) or {}).get("value")
     if not isinstance(value, (int, float)) or isinstance(value, bool):
         return jsonify({"error": "value must be a number"}), 400
-    item["readings"].append(float(value))
-    return jsonify({"station": summary(item)}), 201
+    stored = {**item, "readings": [*item["readings"], float(value)]}
+    return jsonify({"station": summary(stored)}), 201
 
 
 @app.get("/healthz")
