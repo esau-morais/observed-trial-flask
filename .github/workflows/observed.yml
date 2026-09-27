@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: esau-morais/observed@f1255430fd27d84f4f512a4d538a39e0023cd15d # feat/api-operations, unreleased
+      - uses: esau-morais/observed@d23c0538f1cabcb26d8ff95e6e7aca5bd3dbf6ed # feat/api-operations, unreleased
         env:
           OBSERVED_FROM_SOURCE: true
           STATIONS_TOKEN: ${{ secrets.STATIONS_TOKEN }}
