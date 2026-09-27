@@ -24,7 +24,6 @@ def summary(station):
         "id": station["id"],
         "name": station["name"],
         "latest": readings[-1],
-        "average": round(sum(readings) / len(readings), 1),
     }
 
 
@@ -68,7 +67,7 @@ def add_reading(station_id):
     if not isinstance(value, (int, float)) or isinstance(value, bool):
         return jsonify({"error": "value must be a number"}), 400
     item["readings"].append(float(value))
-    return jsonify({"station": summary(item)}), 201
+    return jsonify({"station": summary(item)})
 
 
 @app.get("/healthz")
