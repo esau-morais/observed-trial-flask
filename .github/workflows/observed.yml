@@ -9,13 +9,20 @@ permissions:
 jobs:
   observe:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: esau-morais/observed@650c03a9c9737b1e9ee110593b2027abbb07c12e
+      - uses: esau-morais/observed@f1255430fd27d84f4f512a4d538a39e0023cd15d # feat/api-operations, unreleased
+        env:
+          OBSERVED_FROM_SOURCE: true
+          STATIONS_TOKEN: ${{ secrets.STATIONS_TOKEN }}
         with:
           project: .
           base: ${{ github.event.pull_request.base.sha }}
+          github-app-client-id: ${{ vars.OBSERVED_APP_CLIENT_ID }}
+          github-app-private-key: ${{ secrets.OBSERVED_APP_PRIVATE_KEY }}
+          slack-bot-token: ${{ secrets.OBSERVED_SLACK_BOT_TOKEN }}
+          slack-channel: ${{ vars.OBSERVED_SLACK_CHANNEL }}
